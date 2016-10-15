@@ -26,3 +26,20 @@ mongo client
 ------------
 show collections
 db.collection_name.find()
+
+
+docker
+-----
+launch from docker terminal
+
+docker images
+docker run hello-world
+docker info
+docker ps
+docker pull alpine
+docker pull ubuntu - downloads from hub and keeps in local
+
+
+
+
+
