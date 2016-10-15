@@ -1,0 +1,18 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+---
+spring:
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 5000
+---
+server:
+  port: 8002
+---
+spring:
+  application:
+    name: flight-microservice-consumer  
+      
