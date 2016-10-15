@@ -1,0 +1,31 @@
+---
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8888
+      
+---
+
+spring:
+  cloud:
+    consul:
+      host: 127.0.0.1
+      port: 5000      
+
+server:
+  port: ${PORT:${SERVER_PORT:0}}
+---
+spring:
+  cloud:
+    consul:
+      discovery:
+        instance-id: ${spring.application.name}:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}      
+        health-check-interval: 10s
+       
+      
+  application:
+    name: search-service
+
+#server:
+#  port:  8003   
+      
