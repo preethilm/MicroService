@@ -1,0 +1,28 @@
+C:\Users\admin>keytool -genkeypair -alias b3 -keyalg RSA -dname "CN=b3, L=Blore, S=KA, C=IN" -keypass mySecretKey -keyst
+ore jwt.jks -storepass mySecretKey
+
+keytool -list -rfc --keystore jwt.jks
+
+keytool -list -rfc --keystore jwt.jks | openssl x509 -inform pem -pubkey
+
+
+Consul:
+------
+
+consul agent -dev -http-port 5000
+
+Rabbit:
+------
+
+def port : 15672
+
+rabbitmq-plugin enable rabbitmq_management
+
+Mongo:
+------
+Mongod
+
+mongo client
+------------
+show collections
+db.collection_name.find()
