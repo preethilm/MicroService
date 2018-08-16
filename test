@@ -1,0 +1,99 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+<!-- It register the beans in context and scan the annotations inside beans and activate them -->
+	<context:component-scan base-package="com.bos.cpoms.*" />
+
+ <!-- This allow for dispatching requests to Controllers by registering two beans - DefaultAnnotationHandlerMapping and AnnotationMethodHandlerAdapter -->
+	<mvc:annotation-driven />
+	
+	<import resource="persistance.xml" />
+
+</beans>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc		http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd
+		http://www.springframework.org/schema/beans		http://www.springframework.org/schema/beans/spring-beans.xsd		
+		http://www.springframework.org/schema/context	http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/mvc	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/data/jpa	http://www.springframework.org/schema/data/jpa/spring-jpa-1.2.xsd
+		http://www.springframework.org/schema/tx	http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+
+	<jpa:repositories base-package="com.bos.cpoms.repository" entity-manager-factory-ref="entityManagerFactoryBean"></jpa:repositories>
+
+	<!-- This produces a container-managed EntityManagerFactory; rather than 
+		application-managed EntityManagerFactory as in case of LocalEntityManagerFactoryBean -->
+	<bean id="entityManagerFactoryBean"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.bos.cpoms.model" />
+		<!-- JpaVendorAdapter implementation for Hibernate EntityManager.Exposes 
+			Hibernate's persistence provider and EntityManager extension interface -->
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">validate</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+			</props>
+		</property>
+	</bean>
+
+
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />
+		<property name="url"
+			value="jdbc:sqlserver://SG1VD0095RDB.DEV.INTRANET:62121;databaseName=DWS" />
+		<property name="username" value="cpoms_db_user" />
+		<property name="password" value="password" />
+	</bean>
+
+	<!-- This transaction manager is appropriate for applications that use a 
+		single JPA EntityManagerFactory for transactional data access. JTA (usually 
+		through JtaTransactionManager) is necessary for accessing multiple transactional 
+		resources within the same transaction. -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactoryBean" />
+	</bean>
+
+	<!-- responsible for registering the necessary Spring components that power 
+		annotation-driven transaction management; such as when @Transactional methods 
+		are invoked -->
+	<tx:annotation-driven />
+
+</beans>
+
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>API</display-name>
+
+	<servlet>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<servlet-class> org.springframework.web.servlet.DispatcherServlet
+		</servlet-class>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>mvc-dispatcher</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
