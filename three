@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} %-5p %c{2}:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+			<file>${catalina.home}/logs/RestApi.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- daily rollover. Make sure the path matches the one in the file element or else the rollover logs are placed in the working directory. -->
+			<fileNamePattern>${catalina.home}/logs/RestApi_%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>500KB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<!-- keep 30 days' worth of history -->
+			<maxHistory>1</maxHistory>
+		</rollingPolicy>
+
+		<encoder>
+			<charset>UTF-8</charset>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss:SSS} %-5p %c{2}:%L - %m%n</pattern>
+		</encoder>
+	</appender>
+	
+	
+	<!-- <logger name="com.bos.cpoms.controller" level="INFO" additivity="false"> 
+		<appender-ref ref="stdout" /> </logger> -->
+
+
+<!-- 	<appender name="fileAppender" class="ch.qos.logback.core.FileAppender">
+		<file>${catalina.home}/logs/RestApi.log</file>
+		<append>true</append>
+		<encoder>
+			<pattern>%d [%thread] %-5level %logger{35} - %msg%n</pattern>
+		</encoder>
+	</appender> -->
+
+	<root level="DEBUG">	
+		<appender-ref ref="stdout" />
+		<appender-ref ref="file" />
+	</root>
+
+</configuration>
+
+
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+
+	<!-- swagger -->
+	
+	<bean class="com.bos.cpoms.config.SwaggerConfig"></bean>
+
+	<mvc:resources mapping="swagger-ui.html" location="classpath:/META-INF/resources/" />
+	<mvc:resources mapping="/webjars/**" location="classpath:/META-INF/resources/webjars/" />
+
+</beans>
+
+#database
+jdbc.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver
+jdbc.url=jdbc:sqlserver://SG1VD0095RDB.DEV.INTRANET:62121;databaseName=DWS
+jdbc.username=cpoms_db_user
+jdbc.password=password
+
+hibernate.dialect=org.hibernate.dialect.SQLServerDialect
