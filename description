@@ -1,0 +1,17 @@
+The Cross Product Order Management System (CPOMS) project is delivering an integrated order management solution, including pre-trade & suitability checking across asset classes. The implementation of Bonds and Funds order management was completed successfully, with further products – Cash Equities, Equity Derivatives, FX Derivatives, and FX Cash, scheduled to be added to the platform throughout 2018.
+To-date the order management implementation has been with a limited set of pre-trade checks. Analysis of all pre-trade checks applicable to these products identified that a number of underlying data points required to run these checks were stored on spreadsheets, in imaged documents, in folders on shared drives, and in some cases on external websites – limiting the capabilities to execute the rules in an automated and controlled manner.
+The work to be undertaken by this project will identify, source and store the underlying data points required to execute pre-trade and suitability rules applicable to all products on the CPOMS platform. These data points are primarily to be placed in the target client and product data masters, MSCRM and EDM respectively.
+In addition, to expedite the move away from the Hong Kong Compliance Checking System (CCS), this initiative will build the capability for generation of the Investment Rationale Record and post-trade control reporting
+
+
+
+User Groups
+Front Office (FO)
+	-	Relationship Manager – RM
+-	Marketing Assistant – MA
+-	Investment Counselor – IC
+-	Business Manager – BM
+-	Advisory Portfolio Management - APM
+Product Management Group (PMG)	-	IAS – Fixed Income Execution/DDC Dealers
+Operations	-	Securities Operations
+COO Office	-	Business Monitoring & Surveillance
